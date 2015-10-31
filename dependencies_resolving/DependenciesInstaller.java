@@ -15,7 +15,7 @@ public class DependenciesInstaller {
 
 	private HashMap<String, ArrayList<String>> allDep;
 	private ArrayList<String> installDep = new ArrayList<>();
-	private ArrayList<String> localDep;	
+	private ArrayList<String> localDep;
 	private String installDir;
 
 	public DependenciesInstaller(String filePathAllPackages) {
@@ -68,7 +68,8 @@ public class DependenciesInstaller {
 		ArrayList<String> libDeps = allDep.get(lib);
 		System.out.println(spaces + "Installing " + lib);
 		if (!installDep.contains(lib)) {
-			System.out.print(spaces + "In order to install " + lib + " we need from " + libDeps);
+			System.out.print(spaces + "In order to install " + lib
+					+ " we need from " + libDeps);
 			System.out.println();
 			if (libDeps.size() > 0) {
 				for (String libDep : libDeps) {
@@ -76,7 +77,7 @@ public class DependenciesInstaller {
 				}
 			}
 			installResolvedDep(lib);
-			System.out.println(spaces + lib + " is installed" );
+			System.out.println(spaces + lib + " is installed");
 		} else {
 			System.out.println(spaces + lib + " is already installed");
 		}
@@ -88,22 +89,19 @@ public class DependenciesInstaller {
 		}
 	}
 
+	private void installResolvedDep(String lib) {
+		File f = new File(installDir, lib);
+		try {
+			f.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		installDep.add(lib);
+	}
 
-    private void installResolvedDep(String lib) {
-    	File f = new File(installDir, lib);
-    	try {
-    		f.createNewFile();
-      	} catch (Exception e) {
-      		e.printStackTrace();
-      	}
-  	    installDep.add(lib);
-  	}
-    	
-	
 	public ArrayList<String> listInstalledDep() {
 		return installDep;
 	}
-	
 
 	public void show() {
 		Iterator entries = allDep.entrySet().iterator();
@@ -119,7 +117,7 @@ public class DependenciesInstaller {
 			System.out.println(tem);
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		DependenciesInstaller dr = new DependenciesInstaller("allDep.json");
 		dr.addLocalDeb("localDep.json");
